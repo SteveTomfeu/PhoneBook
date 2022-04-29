@@ -8,23 +8,24 @@ class PhoneBook
 {
     public static function searchByName(string $name):array
     {
-        return collect(self::contacts())->filter(function ($contact) use ($name){
-            return Str::contains(strtolower($contact['name']), strtolower($name));
-        })->all();
+        return self::searchBy('name', $name);
     }
 
     public static function searchByCity(string $city):array
     {
-        return collect(self::contacts())->filter(function ($contact) use ($city){
-            return Str::contains(strtolower($contact['city']), strtolower($city));
-        })->all();
+        return self::searchBy('city', $city);
     }
 
     public static function searchByEmail(string $email):array
     {
-        return collect(self::contacts())->filter(function ($contact) use ($email){
-            return Str::contains(strtolower($contact['email']), strtolower($email));
-        })->all();
+        return self::searchBy('email', $email);;
+    }
+
+    public static function searchBy(string $key, string $value):array
+    {
+        return collect(self::contacts())->filter(fn ($contact) 
+            =>Str::contains(strtolower($contact[$key]), strtolower($value))
+        )->all();
     }
 
     public static function contacts(): array

@@ -9,9 +9,21 @@ class LiveSearch extends Component
 {
     public $name;
 
-    public function mount()
-    {
-        dd(PhoneBook::searchByCity('france'));
+    public $contacts = [];
+
+    public function searchByName(){
+        
+        if(!empty($this->name)){
+            sleep(3);
+        $results = PhoneBook::searchByName($this->name);
+
+        if(empty($results)){
+            session() ->flash('message', 'No contact matching "'. $this->name .'".');
+        }
+        $this->contacts = $results;
+        }
+        
+        
     }
 
     public function render()
